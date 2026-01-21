@@ -1,0 +1,176 @@
+// ============================================
+// Header Component
+// ============================================
+
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Search, Menu, X, Film, Tv } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+
+export interface HeaderProps {
+  onSearchChange?: (query: string) => void;
+  searchQuery?: string;
+  className?: string;
+}
+
+/**
+ * Componente Header - Barra de navegación principal con búsqueda
+ */
+export function Header({ onSearchChange, searchQuery = '', className }: HeaderProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
+  const location = useLocation();
+
+  // Detectar scroll para cambiar estilo del header
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Actualizar búsqueda local cuando cambia la prop
+  useEffect(() => {
+    setLocalSearchQuery(searchQuery);
+  }, [searchQuery]);
+
+  // Manejar cambio de búsqueda con debounce
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      onSearchChange?.(localSearchQuery);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [localSearchQuery, onSearchChange]);
+
+  // Cerrar menú móvil al cambiar de ruta
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalSearchQuery(e.target.value);
+  };
+
+  const navItems = [
+    { name: 'Inicio', path: '/' },
+    { name: 'Películas', path: '/movies' },
+    { name: 'Series', path: '/tv' },
+    { name: 'Mi Lista', path: '/my-list' },
+  ];
+
+  return (
+    <header
+      className={cn(
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        isScrolled
+          ? 'bg-background/95 backdrop-blur-md border-b border-border shadow-lg'
+          : 'bg-gradient-to-b from-black/80 to-transparent'
+      , className)}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between gap-4">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 text-xl font-bold text-primary hover:opacity-80 transition-opacity">
+            <Film className="h-6 w-6" />
+            <span className="hidden sm:inline">StreamFlix</span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-6">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={cn(
+                  'text-sm font-medium transition-colors hover:text-primary',
+                  location.pathname === item.path
+                    ? 'text-primary'
+                    : 'text-muted-foreground'
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Search Bar */}
+          <div className="hidden sm:flex flex-1 max-w-md mx-4">
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Buscar películas, series..."
+                value={localSearchQuery}
+                onChange={handleSearchChange}
+                className="pl-10 bg-muted/50 border-muted focus-visible:bg-muted"
+              />
+            </div>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
+          </Button>
+        </div>
+
+        {/* Mobile Search */}
+        <div className="sm:hidden py-2">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Buscar..."
+              value={localSearchQuery}
+              onChange={handleSearchChange}
+              className="pl-10 bg-muted/50 border-muted"
+            />
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMobileMenuOpen && (
+          <nav className="md:hidden py-4 border-t border-border">
+            <div className="flex flex-col gap-2">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={cn(
+                    'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+                    location.pathname === item.path
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                  )}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </nav>
+        )}
+      </div>
+    </header>
+  );
+}
+
+/**
+ * Espaciador para compensar el header fijo
+ */
+export function HeaderSpacer() {
+  return <div className="h-16" />;
+}
