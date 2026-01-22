@@ -13,6 +13,7 @@ import {
   SearchPage,
 } from '@/pages';
 import { MediaDetailPage } from '@/pages/MediaDetail';
+import { PersonDetailPage } from '@/pages/PersonDetail';
 
 function App() {
   return (
@@ -47,6 +48,9 @@ function App() {
 
             {/* Mi lista */}
             <Route path="/my-list" element={<MyListPage />} />
+
+            {/* Personas */}
+            <Route path="/person/:id" element={<PersonDetailPage />} />
 
             {/* 404 - Redirect to home */}
             <Route path="*" element={<Navigate to="/" replace />} />

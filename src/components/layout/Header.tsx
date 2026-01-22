@@ -4,24 +4,21 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X, Film, Tv } from 'lucide-react';
+import { Menu, X, Film } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { SearchBar } from '@/components/search';
 import { cn } from '@/lib/utils';
 
 export interface HeaderProps {
-  onSearchChange?: (query: string) => void;
-  searchQuery?: string;
   className?: string;
 }
 
 /**
  * Componente Header - Barra de navegación principal con búsqueda
  */
-export function Header({ onSearchChange, searchQuery = '', className }: HeaderProps) {
+export function Header({ className }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
   const location = useLocation();
 
   // Detectar scroll para cambiar estilo del header
@@ -34,28 +31,10 @@ export function Header({ onSearchChange, searchQuery = '', className }: HeaderPr
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Actualizar búsqueda local cuando cambia la prop
-  useEffect(() => {
-    setLocalSearchQuery(searchQuery);
-  }, [searchQuery]);
-
-  // Manejar cambio de búsqueda con debounce
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      onSearchChange?.(localSearchQuery);
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [localSearchQuery, onSearchChange]);
-
   // Cerrar menú móvil al cambiar de ruta
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocalSearchQuery(e.target.value);
-  };
 
   const navItems = [
     { name: 'Inicio', path: '/' },
@@ -67,7 +46,7 @@ export function Header({ onSearchChange, searchQuery = '', className }: HeaderPr
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        'fixed top-0 left-0 right-0 z-[9998] transition-all duration-300',
         isScrolled
           ? 'bg-background/95 backdrop-blur-md border-b border-border shadow-lg'
           : 'bg-gradient-to-b from-black/80 to-transparent'
@@ -100,17 +79,8 @@ export function Header({ onSearchChange, searchQuery = '', className }: HeaderPr
           </nav>
 
           {/* Search Bar */}
-          <div className="hidden sm:flex flex-1 max-w-md mx-4">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Buscar películas, series..."
-                value={localSearchQuery}
-                onChange={handleSearchChange}
-                className="pl-10 bg-muted/50 border-muted focus-visible:bg-muted"
-              />
-            </div>
+          <div className="hidden sm:block flex-1 max-w-md mx-4">
+            <SearchBar placeholder="Buscar películas, series..." />
           </div>
 
           {/* Mobile Menu Button */}
@@ -130,16 +100,7 @@ export function Header({ onSearchChange, searchQuery = '', className }: HeaderPr
 
         {/* Mobile Search */}
         <div className="sm:hidden py-2">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Buscar..."
-              value={localSearchQuery}
-              onChange={handleSearchChange}
-              className="pl-10 bg-muted/50 border-muted"
-            />
-          </div>
+          <SearchBar placeholder="Buscar..." />
         </div>
 
         {/* Mobile Navigation */}

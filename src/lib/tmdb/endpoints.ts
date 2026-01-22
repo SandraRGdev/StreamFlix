@@ -2,7 +2,8 @@
 // TMDB API - Endpoints Definition
 // ============================================
 
-import type { MediaType, TimeWindow } from './types';
+import type { MediaType } from './types';
+import type { TimeWindow } from './config';
 
 /**
  * Construye la URL base del endpoint
@@ -74,6 +75,8 @@ export const TMDB_ENDPOINTS = {
   // ==========================================
   movieDetails: (id: number) => buildEndpoint(`/movie/${id}`),
   tvDetails: (id: number) => buildEndpoint(`/tv/${id}`),
+  personDetails: (id: number) => buildEndpoint(`/person/${id}`),
+  personCombinedCredits: (id: number) => buildEndpoint(`/person/${id}/combined_credits`),
 
   // ==========================================
   // Additional Data

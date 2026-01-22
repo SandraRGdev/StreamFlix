@@ -53,7 +53,12 @@ export function useSearch(options: UseSearchOptions) {
         cacheTTL: CACHE_TIMES.search,
       });
 
+      console.log('[SEARCH] Response:', response);
+      console.log('[SEARCH] Results count:', response.results?.length);
+
       const transformed = transformMultiSearchResults(response.results);
+
+      console.log('[SEARCH] Transformed count:', transformed.length);
 
       return {
         data: transformed,
@@ -71,6 +76,8 @@ export function useSearch(options: UseSearchOptions) {
         cache: true,
         cacheTTL: CACHE_TIMES.search,
       });
+
+      console.log('[SEARCH MOVIE] Response:', response);
 
       const transformed = transformMovies(response.results);
 
@@ -90,6 +97,8 @@ export function useSearch(options: UseSearchOptions) {
         cache: true,
         cacheTTL: CACHE_TIMES.search,
       });
+
+      console.log('[SEARCH TV] Response:', response);
 
       const transformed = transformTVShows(response.results);
 

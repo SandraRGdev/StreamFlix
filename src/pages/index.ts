@@ -8,3 +8,4 @@ export * from './TV';
 export * from './MyList';
 export * from './SearchPage';
 export * from './MediaDetail';
+export * from './PersonDetail';
