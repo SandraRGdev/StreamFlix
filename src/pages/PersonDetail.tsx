@@ -6,14 +6,12 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Header, HeaderSpacer, SimpleFooter } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MediaCard } from '@/components/media';
 import { usePersonDetails } from '@/lib/hooks/usePerson';
 import {
   ArrowLeft,
   Calendar,
   MapPin,
   Film,
-  Tv,
   ExternalLink,
   User,
 } from 'lucide-react';

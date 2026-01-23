@@ -12,7 +12,7 @@ import { Film, Tv, Trash2 } from 'lucide-react';
  * Página "Mi Lista" - Lista personalizada del usuario
  */
 export function MyListPage() {
-  const { myList, removeFromList, clearList } = useMediaList();
+  const { myList, clearMyList } = useMediaList();
 
   const movies = myList.filter((m) => m.media_type === 'movie');
   const tvShows = myList.filter((m) => m.media_type === 'tv');
@@ -32,7 +32,7 @@ export function MyListPage() {
             </p>
           </div>
           {myList.length > 0 && (
-            <Button variant="outline" onClick={clearList}>
+            <Button variant="outline" onClick={clearMyList}>
               <Trash2 className="h-4 w-4 mr-2" />
               Limpiar lista
             </Button>
