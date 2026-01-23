@@ -2,7 +2,7 @@
 // TMDB API - Media Detail Hook
 // ============================================
 
-import { tmdbClient, TMDB_ENDPOINTS, buildDetailParams, transformMovieDetails, transformTVDetails, transformMovie, transformTVShow, CACHE_TIMES, type MediaType, type MediaDetailResponse, type MediaDetails } from '../tmdb';
+import { tmdbClient, TMDB_ENDPOINTS, buildDetailParams, transformMovieDetails, transformTVDetails, transformMovie, transformTVShow, CACHE_TIMES, buildYouTubeThumbnail, type MediaType, type MediaDetailResponse } from '../tmdb';
 import { useTMDBParams } from './useTMDB';
 
 export interface UseMediaDetailOptions {
@@ -190,6 +190,7 @@ export function useVideos(options: UseVideosOptions) {
       type: v.type,
       official: v.official,
       site: v.site,
+      thumbnail: buildYouTubeThumbnail(v.key),
     })) || [];
   };
 

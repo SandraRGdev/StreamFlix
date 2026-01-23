@@ -47,7 +47,8 @@ export function MediaGrid({
     columns.md && `md:grid-cols-${columns.md}`,
     columns.lg && `lg:grid-cols-${columns.lg}`,
     columns.xl && `xl:grid-cols-${columns.xl}`,
-    columns['2xl'] && `2xl:grid-cols-${columns['2xl']}`
+    columns['2xl'] && `2xl:grid-cols-${columns['2xl']}`,
+    className
   );
 
   // Estado de error

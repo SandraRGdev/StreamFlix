@@ -6,7 +6,7 @@ import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import { Header, HeaderSpacer, SimpleFooter } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MediaCard, MediaRating, CompactGrid } from '@/components/media';
+import { MediaRating, CompactGrid } from '@/components/media';
 import { useMediaDetail, useSimilar, useRecommendations } from '@/lib/hooks';
 import { useMediaList } from '@/contexts/MediaContext';
 import {
@@ -14,9 +14,7 @@ import {
   Plus,
   Check,
   ArrowLeft,
-  Calendar,
   Clock,
-  Star,
   Film,
   Tv,
   Globe,

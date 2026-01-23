@@ -2,7 +2,6 @@
 // Search Results Component
 // ============================================
 
-import { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useSearch } from '@/lib/hooks';
 import { MediaGrid } from '@/components/media';

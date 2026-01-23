@@ -12,32 +12,11 @@ import type {
   Media,
   MediaDetails,
 } from './types';
-import { buildImageUrl, buildYouTubeThumbnail, TMDB_CONFIG } from './config';
+import { buildImageUrl, buildYouTubeThumbnail } from './config';
 
 // ============================================
 // Extractores de campos comunes
 // ============================================
-
-/**
- * Extrae el título normalizado (title para movie, name para tv)
- */
-function extractTitle(item: TMDBMovie | TMDBTVShow): string {
-  return 'title' in item ? item.title : item.name;
-}
-
-/**
- * Extrae el título original
- */
-function extractOriginalTitle(item: TMDBMovie | TMDBTVShow): string {
-  return 'original_title' in item ? item.original_title : item.original_name;
-}
-
-/**
- * Extrae la fecha de lanzamiento
- */
-function extractReleaseDate(item: TMDBMovie | TMDBTVShow): string {
-  return 'release_date' in item ? item.release_date : item.first_air_date;
-}
 
 /**
  * Extrae el año de la fecha de lanzamiento
@@ -205,8 +184,6 @@ export function transformMultiSearchResult(result: TMDBMultiSearchResult): Media
  */
 export function transformMovieDetails(movie: TMDBMovieDetails): MediaDetails {
   const base = transformMovie(movie);
-  const releaseDate = movie.release_date || null;
-  const year = extractYear(releaseDate);
 
   return {
     ...base,

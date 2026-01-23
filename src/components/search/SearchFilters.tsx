@@ -35,7 +35,7 @@ export interface FilterState {
  * Componente SearchFilters - Panel de filtros avanzados
  */
 export function SearchFilters({ mediaType, className }: SearchFiltersProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 

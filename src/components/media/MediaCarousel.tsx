@@ -36,7 +36,6 @@ export function MediaCarousel({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   // Actualizar estado de scroll
   const updateScrollState = () => {
@@ -80,18 +79,16 @@ export function MediaCarousel({
     const el = scrollRef.current;
     if (!el) return;
 
-    const cardWidth = el.firstChild?.getBoundingClientRect().width || 200;
+    const cardWidth = (el.firstElementChild as HTMLElement)?.getBoundingClientRect().width || 200;
     el.scrollBy({ left: -cardWidth * 3, behavior: 'smooth' });
-    setCurrentIndex(prev => Math.max(0, prev - 1));
   };
 
   const scrollRight = () => {
     const el = scrollRef.current;
     if (!el) return;
 
-    const cardWidth = el.firstChild?.getBoundingClientRect().width || 200;
+    const cardWidth = (el.firstElementChild as HTMLElement)?.getBoundingClientRect().width || 200;
     el.scrollBy({ left: cardWidth * 3, behavior: 'smooth' });
-    setCurrentIndex(prev => prev + 1);
   };
 
   const scrollToStart = () => {
@@ -99,7 +96,6 @@ export function MediaCarousel({
     if (!el) return;
 
     el.scrollTo({ left: 0, behavior: 'smooth' });
-    setCurrentIndex(0);
   };
 
   // Error state

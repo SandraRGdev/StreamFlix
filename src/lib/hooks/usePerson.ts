@@ -2,7 +2,7 @@
 // TMDB API - Person Hook
 // ============================================
 
-import { tmdbClient, TMDB_ENDPOINTS, buildDetailParams, CACHE_TIMES, type ApiError } from '../tmdb';
+import { tmdbClient, TMDB_ENDPOINTS, buildDetailParams, CACHE_TIMES } from '../tmdb';
 import { useTMDB } from './useTMDB';
 
 export interface PersonDetails {

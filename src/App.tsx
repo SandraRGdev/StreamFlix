@@ -4,7 +4,7 @@
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { MediaProvider } from '@/contexts';
-import { Header, Footer } from '@/components/layout';
+import { Footer } from '@/components/layout';
 import {
   HomePage,
   MoviesPage,

@@ -4,7 +4,6 @@
 
 import { Link } from 'react-router-dom';
 import type { Media } from '@/lib/tmdb';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Star, Calendar, Film, Tv } from 'lucide-react';

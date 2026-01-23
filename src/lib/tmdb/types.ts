@@ -275,6 +275,7 @@ export interface MediaDetails extends Media {
     name: string;
     type: string;
     official: boolean;
+    site: string;
     thumbnail: string;
   }>;
   cast?: Array<{

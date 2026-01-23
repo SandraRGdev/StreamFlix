@@ -115,7 +115,7 @@ export class TMDBClient {
       if (
         retries < this.maxRetries &&
         (error instanceof TypeError ||
-          (error instanceof TMDBApiError && (error.status === 429 || error.status >= 500)))
+          (error instanceof TMDBApiError && ((error.status && (error.status === 429 || error.status >= 500)) || false)))
       ) {
         const retryDelay = TMDB_CONFIG.retryDelay * Math.pow(2, retries);
         await delay(retryDelay);

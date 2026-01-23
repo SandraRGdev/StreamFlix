@@ -3,7 +3,6 @@
 // ============================================
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { ApiError } from '../tmdb';
 
 export interface UseTMDBResult<T> {
   data: T | null;
