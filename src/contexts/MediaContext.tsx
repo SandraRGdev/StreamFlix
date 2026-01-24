@@ -2,7 +2,7 @@
 // Media Context - Estado global de lista personalizada
 // ============================================
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
 import type { Media } from '@/lib/tmdb';
 
 interface MediaContextType {
@@ -18,22 +18,28 @@ const MediaContext = createContext<MediaContextType | undefined>(undefined);
 const STORAGE_KEY = 'streamflix-mylist';
 
 export function MediaProvider({ children }: { children: ReactNode }) {
-  const [myList, setMyList] = useState<Media[]>([]);
-
-  // Cargar lista desde localStorage al montar
-  useEffect(() => {
+  // Inicializar estado desde localStorage directamente
+  const [myList, setMyList] = useState<Media[]>(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
-        setMyList(JSON.parse(stored));
+        return JSON.parse(stored);
       } catch (e) {
         console.error('Error loading list from storage:', e);
+        return [];
       }
     }
-  }, []);
+    return [];
+  });
 
-  // Guardar lista en localStorage cuando cambia
+  // Guardar lista en localStorage cuando cambia (evitar guardar en el primer render)
+  const isInitialRender = useRef(true);
+
   useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(myList));
   }, [myList]);
 
