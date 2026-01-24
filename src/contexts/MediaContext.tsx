@@ -2,7 +2,7 @@
 // Media Context - Estado global de lista personalizada
 // ============================================
 
-import { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import type { Media } from '@/lib/tmdb';
 
 interface MediaContextType {
@@ -17,31 +17,56 @@ const MediaContext = createContext<MediaContextType | undefined>(undefined);
 
 const STORAGE_KEY = 'streamflix-mylist';
 
+// Helper seguro para localStorage
+const safeGetStorage = (key: string): string | null => {
+  try {
+    return localStorage.getItem(key);
+  } catch (e) {
+    console.error('[MediaContext] Error reading from localStorage:', e);
+    return null;
+  }
+};
+
+const safeSetStorage = (key: string, value: string): void => {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    console.error('[MediaContext] Error writing to localStorage:', e);
+  }
+};
+
 export function MediaProvider({ children }: { children: ReactNode }) {
+  // Estado para rastrear si ya se cargó desde localStorage
+  const [isLoaded, setIsLoaded] = useState(false);
+
   // Inicializar estado desde localStorage directamente
   const [myList, setMyList] = useState<Media[]>(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = safeGetStorage(STORAGE_KEY);
     if (stored) {
       try {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        console.log('[MediaContext] Loaded from storage:', parsed.length, 'items');
+        return parsed;
       } catch (e) {
-        console.error('Error loading list from storage:', e);
+        console.error('[MediaContext] Error parsing storage:', e);
         return [];
       }
     }
+    console.log('[MediaContext] No stored data found');
     return [];
   });
 
-  // Guardar lista en localStorage cuando cambia (evitar guardar en el primer render)
-  const isInitialRender = useRef(true);
-
+  // Marcar como cargado después del primer render
   useEffect(() => {
-    if (isInitialRender.current) {
-      isInitialRender.current = false;
-      return;
-    }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(myList));
-  }, [myList]);
+    setIsLoaded(true);
+  }, []);
+
+  // Guardar lista en localStorage cuando cambia (solo después de cargar)
+  useEffect(() => {
+    if (!isLoaded) return;
+    safeSetStorage(STORAGE_KEY, JSON.stringify(myList));
+    console.log('[MediaContext] Saved to storage:', myList.length, 'items');
+  }, [myList, isLoaded]);
 
   const addToMyList = (media: Media) => {
     setMyList((prev) => {
