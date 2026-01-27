@@ -2,7 +2,7 @@
 // Hero Section Component
 // ============================================
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import type { Media } from '@/lib/tmdb';
 import { Play, Info, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -27,6 +27,8 @@ export function HeroSection({
 }: HeroSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   // Solo mostrar media con backdrop
   const featuredMedia = media.filter((m) => m.backdrop_path && m.overview);
@@ -64,6 +66,32 @@ export function HeroSection({
     setTimeout(() => setIsTransitioning(false), 500);
   };
 
+  // Touch handlers para swipe
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      goToNext();
+    } else if (isRightSwipe) {
+      goToPrevious();
+    }
+  };
+
   // Si no hay contenido destacado, no renderizar nada
   if (featuredMedia.length === 0) {
     return null;
@@ -75,6 +103,9 @@ export function HeroSection({
         'relative h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden',
         className
       )}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
     >
       {/* Background Image */}
       <div className="absolute inset-0">
