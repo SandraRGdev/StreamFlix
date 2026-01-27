@@ -2,7 +2,7 @@
 // Hero Section Component
 // ============================================
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import type { Media } from '@/lib/tmdb';
 import { Play, Info, ChevronLeft, ChevronRight } from 'lucide-react';
