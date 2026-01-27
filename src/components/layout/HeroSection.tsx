@@ -123,8 +123,8 @@ export function HeroSection({
       </div>
 
       {/* Content */}
-      <div className="relative h-full container mx-auto px-4 flex items-center">
-        <div className="max-w-2xl space-y-4">
+      <div className="relative h-full container mx-auto px-4 flex items-center pointer-events-none">
+        <div className="max-w-2xl space-y-4 pointer-events-auto">
           {/* Media Type Badge */}
           <Badge
             variant="secondary"
