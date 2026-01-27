@@ -136,13 +136,13 @@ export function MediaCarousel({
 
       {/* Carrusel */}
       <div className="relative group">
-        {/* Gradient fades */}
+        {/* Gradient fades - más pequeños en móvil */}
         <div className={cn(
-          'absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
+          'absolute left-0 top-0 bottom-0 w-6 sm:w-12 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
           !canScrollLeft && 'opacity-0'
         )} />
         <div className={cn(
-          'absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
+          'absolute right-0 top-0 bottom-0 w-6 sm:w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
           !canScrollRight && 'opacity-0'
         )} />
 
