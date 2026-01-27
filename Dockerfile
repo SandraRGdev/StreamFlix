@@ -1,36 +1,31 @@
-# ============================================
-# Stage 1: Build
-# ============================================
-FROM node:20-alpine AS builder
+# Build stage
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copiar archivos de configuración
-COPY package.json package-lock.json* ./
+# Copy package files
+COPY package*.json ./
 
-# Instalar dependencias
-RUN npm ci
+# Install dependencies
+RUN npm install
 
-# Copiar código fuente
+# Copy source code
 COPY . .
 
-# Construir la aplicación
-# VITE_TMDB_API_KEY debe estar configurada como variable de entorno en Dockploy
+# Build application
+ARG VITE_TMDB_API_KEY
+ENV VITE_TMDB_API_KEY=$VITE_TMDB_API_KEY
 RUN npm run build
 
-# ============================================
-# Stage 2: Production
-# ============================================
+# Production stage
 FROM nginx:alpine
 
-# Copiar archivos build al directorio de nginx
+# Copy built files
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copiar configuración nginx personalizada
+# Copy nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Exponer puerto 80
 EXPOSE 80
 
-# Iniciar nginx
 CMD ["nginx", "-g", "daemon off;"]
