@@ -107,27 +107,27 @@ export function MediaCarousel({
     <div className={cn('space-y-3', className)}>
       {/* Header con título y flechas */}
       {title && (
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">{title}</h2>
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="text-lg sm:text-xl font-semibold truncate">{title}</h2>
           {showArrows && !loading && media.length > 0 && (
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={scrollLeft}
                 disabled={!canScrollLeft}
-                className="h-8 w-8"
+                className="h-7 w-7 sm:h-8 sm:w-8"
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={scrollRight}
                 disabled={!canScrollRight}
-                className="h-8 w-8"
+                className="h-7 w-7 sm:h-8 sm:w-8"
               >
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
             </div>
           )}
@@ -136,13 +136,13 @@ export function MediaCarousel({
 
       {/* Carrusel */}
       <div className="relative group">
-        {/* Gradient fades - más pequeños en móvil */}
+        {/* Gradient fades - solo en pantallas grandes */}
         <div className={cn(
-          'absolute left-0 top-0 bottom-0 w-6 sm:w-12 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
+          'hidden sm:block absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
           !canScrollLeft && 'opacity-0'
         )} />
         <div className={cn(
-          'absolute right-0 top-0 bottom-0 w-6 sm:w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
+          'hidden sm:block absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none transition-opacity duration-300',
           !canScrollRight && 'opacity-0'
         )} />
 
