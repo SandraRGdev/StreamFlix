@@ -154,14 +154,14 @@ export function HeroSection({
         </div>
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation Arrows - ocultas en móvil */}
       {featuredMedia.length > 1 && (
         <>
           <Button
             variant="ghost"
             size="icon"
             onClick={goToPrevious}
-            className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/20 text-white backdrop-blur-sm hover:bg-black/40"
+            className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/20 text-white backdrop-blur-sm hover:bg-black/40"
           >
             <ChevronLeft className="h-6 w-6" />
           </Button>
@@ -169,7 +169,7 @@ export function HeroSection({
             variant="ghost"
             size="icon"
             onClick={goToNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/20 text-white backdrop-blur-sm hover:bg-black/40"
+            className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black/20 text-white backdrop-blur-sm hover:bg-black/40"
           >
             <ChevronRight className="h-6 w-6" />
           </Button>
