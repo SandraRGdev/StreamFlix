@@ -14,8 +14,7 @@ COPY . .
 
 # Build application with API key
 ARG VITE_TMDB_API_KEY
-ENV VITE_TMDB_API_KEY=${VITE_TMDB_API_KEY}
-RUN npm run build
+RUN echo "VITE_TMDB_API_KEY=${VITE_TMDB_API_KEY}" > .env && npm run build
 
 # Production stage
 FROM nginx:alpine
