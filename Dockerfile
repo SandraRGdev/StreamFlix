@@ -12,7 +12,9 @@ RUN npm install
 # Copy source code
 COPY . .
 
-# Build application
+# Build application with API key
+ARG VITE_TMDB_API_KEY
+ENV VITE_TMDB_API_KEY=${VITE_TMDB_API_KEY}
 RUN npm run build
 
 # Production stage
